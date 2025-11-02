@@ -1,0 +1,2 @@
+0 8 * * * /usr/bin/python3 /Users/iproject/Desktop/git/alx-backend-graphqlcrm/crm/cron_jobs/sendorderreminders.py
+
