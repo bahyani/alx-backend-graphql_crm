@@ -8,6 +8,9 @@ from django.db import transaction
 from decimal import Decimal
 import re
 from .models import Customer, Product, Order
+from crm.models import Product
+from django.utils import timezone
+
 
 
 # ==================== GraphQL Types ====================
@@ -22,6 +25,28 @@ class ProductType(DjangoObjectType):
     class Meta:
         model = Product
         fields = ("id", "name", "price", "stock")
+
+
+class UpdateLowStockProducts(graphene.Mutation):
+    message = graphene.String()
+    updated_products = graphene.List(ProductType)
+
+    @classmethod
+    def mutate(cls, root, info):
+        low_stock_products = Product.objects.filter(stock__lt=10)
+
+        updated = []
+        for product in low_stock_products:
+            product.stock += 10
+            product.save()
+            updated.append(product)
+
+        return UpdateLowStockProducts(
+            message=f"{len(updated)} products updated successfully",
+            updated_products=updated
+        )
+
+
 
 
 class OrderType(DjangoObjectType):
@@ -350,6 +375,7 @@ class Mutation(graphene.ObjectType):
     bulk_create_customers = BulkCreateCustomers.Field()
     create_product = CreateProduct.Field()
     create_order = CreateOrder.Field()
+    update_low_stock_products = UpdateLowStockProducts.Field()
 
 
 # ==================== Schema ====================

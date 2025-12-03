@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crm',
     'graphene-django',
-    'django_filters'
+    'django_filters',
+    'django_crontab',
 
 ]
 
@@ -126,9 +127,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BEAT_SCHEDULE = {
-    'generate-crm-report': {
-        'task': 'crm.tasks.generate_crm_report',
-        'schedule': crontab(day_of_week='mon', hour=6, minute=0),
-    },
-}
+
