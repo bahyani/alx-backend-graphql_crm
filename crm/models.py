@@ -6,9 +6,9 @@ from decimal import Decimal
 
 class Customer(models.Model):
     """Customer model for CRM system."""
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=20, blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
