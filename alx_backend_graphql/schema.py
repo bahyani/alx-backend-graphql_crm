@@ -3,6 +3,16 @@ from graphene_django import DjangoObjectType
 from .models import Product
 from crm.models import Product
 
+class CRMQuery(graphene.ObjectType):
+    """
+    CRM specific queries.
+    """
+    hello = graphene.String(default_value="Hello, GraphQL!")
+
+
+class Query(CRMQuery, graphene.ObjectType):
+
+    pass
 
 class ProductType(DjangoObjectType):
     class Meta:
